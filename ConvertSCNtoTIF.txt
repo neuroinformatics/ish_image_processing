@@ -2,11 +2,9 @@ input_directory = getArgument;
 if (input_directory=="") exit ("No argument!");
 
 input_latter = " color_mode=Grayscale view=Hyperstack stack_order=XYCZT use_virtual_stack series_6";
-output_former = "save=/Users/arasekosuke/Desk/J-Node_Hackathon/Nissl_P0-";
-output_latter = ".scn_rough.tif";
 
 filelist = getFileList(input_directory);
-print(filelist.length);
+
 for (i=0; i<filelist.length; i++) {
     split_filename = split(filelist[i], ".");
     if (split_filename[1] == "scn") {

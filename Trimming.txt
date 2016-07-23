@@ -1,0 +1,102 @@
+function get_borders(filepath) {
+    open(filepath);
+    getDimensions(width, height, channels, slices, frames);
+
+    margin = width/4;
+
+    y_border = newArray(0,0,0,0,0,0); // {image1_top, image1_bottom, image2_top, image2_bottom, image3_top, image3_bottom}
+    i = 0; // index of the border array
+    flag = 0; // flag == 1 when the line is on a brain image
+
+    y = 0;
+
+    makeLine(margin, 0, width - margin, 0);
+    getStatistics(area, mean, min, max, std, histogram);
+    while(std > threshold) { // igonore noise around edge
+        y += interval;
+        makeLine(margin, y, width - margin, y);
+        getStatistics(area, mean, min, max, std, histogram);
+    }
+
+    while(y < height) {
+        makeLine(margin, y, width - margin, y);
+        getStatistics(area, mean, min, max, std, histogram);
+        if(std > threshold && flag == 0) { // beginning of the brain image
+            y_border[i] = y;
+            i += 1;
+            flag = 1;
+        }
+        if(std < threshold && flag == 1) { // end of the brain image
+            y_border[i] = y;
+            i += 1;
+            flag = 0;
+        }
+        if(i == 6) break;
+        y += interval;
+    }
+
+    x_border = newArray(0,0,0,0,0,0); // {image1_left, image1_right, image2_left, image2_right, image3_left, image3_right}
+
+    x = width/2 - margin;
+    i=0; // index of the border array
+
+    while(x > 0) {
+        makeLine(x, y_border[i*2], x, y_border[i*2+1]);
+        getStatistics(area, mean, min, max, std, histogram);
+        if(std < threshold) { // beginning of the brain image
+            x_border[i*2] = x;
+            i += 1;
+        }
+        if(i == 3) break;
+        x -= interval;
+    }
+
+    x = width/2 + margin;
+    i=0; // index of the border array
+
+    while(x < width) {
+        makeLine(x, y_border[i*2], x, y_border[i*2+1]);
+        getStatistics(area, mean, min, max, std, histogram);
+        if(std < threshold) { // beginning of the brain image
+            x_border[i*2+1] = x;
+            i += 1;
+        }
+        if(i == 3) break;
+        x += interval;
+    }
+
+    return Array.concat(x_border, y_border, width, height);
+}
+
+
+function trim_images(borders, filename){
+    for(j=0;j<3;j++){
+        left = borders[j*2] - output_margin;
+        top = borders[j*2+6] - output_margin;
+        width = borders[j*2+1] - borders[j*2] + 2 * output_margin;
+        height = borders[j*2+7] - borders[j*2+6] + 2 * output_margin;
+        makeRectangle(left, top, width, height);
+        run("Duplicate...", "duplicate");
+        run("Save", "save=" + input_directory + filename + "-" + j + ".tif");
+        close();
+    }
+    close();
+}
+
+
+threshold = 20;
+interval = 20;
+output_margin = 100;
+
+input_directory = getArgument;
+if (input_directory=="") exit ("No argument!");
+
+filelist = getFileList(input_directory);
+for (i=0; i<filelist.length; i++) {
+    split_filename = split(filelist[i], ".");
+    if (split_filename[1] == "tif") {
+        borders = get_borders(input_directory + filelist[i]);
+        trim_images(borders, split_filename[0]);
+    }
+}
+
