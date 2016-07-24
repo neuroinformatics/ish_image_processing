@@ -1,0 +1,26 @@
+input_file = "/Users/arasekosuke/Desk/J-Node_Hackathon/Nissl_P0-02_rough-1.tif";
+open(input_file);
+
+getDimensions(width, height, channels, slices, frames);
+line_length = height/2;
+makeLine(width/2, height/4, width/2, 3*height/4);
+
+range = 15;
+
+run("Rotate...", "  angle=-" + range);
+
+min_std = 1000000
+
+for(i=-range;i<range;i++) {
+    getStatistics(area, mean, min, max, std, histogram);
+    if(min_std > std) {
+        min_std = std;
+        angle = i;
+    }
+    print(std);
+    run("Rotate...", "  angle=1");
+}
+
+run("Rotate... ", "angle=-" + angle + " grid=1 interpolation=Bilinear stack");
+run("Save");
+
