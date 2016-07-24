@@ -17,16 +17,25 @@ alias imagej='/Applications/Fiji.app/Contents/MacOS/ImageJ-macosx'
 
 ## Usage
 ### ConvertSCNtoTIFF.txt
-Makes  ``filename.scn_rough.tiff`` from ``filename.scn``
+Converting .scn files to .tif files	\
+This macro makes  ``filename.scn_rough.tiff`` from ``filename.scn``.
 ### 
 ```
 $ imagej -macro ish_image_processing/ConvertSCNtoTIFF.txt [target_directory]
 ```
 
 ### Trimming.txt
-Trim three images for each slide
+Trimming three images for each slide
 
-Makes  ``filename.scn_rough-[i].tiff`` from ``filename.scn_rough.tiff`` where [i] = 1,2,3
+This macro makes  ``filename.scn_rough-[i].tif`` from ``filename.scn_rough.tif`` where [i] = 1,2,3.
 ```
 $ imagej -macro ish_image_processing/Trimming.txt [target_directory]
+```
+
+### Rotate.txt
+Rotating each images accuratery
+
+This script updates  ``filename.scn_rough-[i].tif`` , and ignores the slide file ``filename.scn``.
+```
+$ imagej -macro ish_image_processing/Rotate.txt [target_directory]
 ```
