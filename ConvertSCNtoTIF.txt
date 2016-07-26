@@ -10,6 +10,10 @@ for (i=0; i<filelist.length; i++) {
     split_filename = split(filelist[i], ".");
     if (split_filename[1] == "scn") {
         run("Bio-Formats Importer", "open=" + input_directory + filelist[i] + input_latter);
+
+	run("Rotate 90 Degrees Right");
+	run("Rotate 90 Degrees Right");
+
         run("Save", "save=" + input_directory + split_filename[0] + "_rough.tif");
         close();
     }

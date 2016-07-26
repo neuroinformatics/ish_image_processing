@@ -78,9 +78,6 @@ function trim_images(borders, filename){
         makeRectangle(left, top, width, height);
         run("Duplicate...", "duplicate");
 
-	run("Rotate 90 Degrees Right");
-	run("Rotate 90 Degrees Right");
-
         run("Save", "save=" + input_directory + filename + "-" + j + ".tif");
         close();
     }
