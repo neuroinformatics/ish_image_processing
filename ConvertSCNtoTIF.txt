@@ -1,8 +1,7 @@
 input_directory = getArgument;
 if (input_directory=="") exit ("No argument!");
 
-input_latter = " view=Hyperstack stack_order=XYCZT use_virtual_stack series_6";
-input_latter = " color_mode=Grayscale view=Hyperstack stack_order=XYCZT use_virtual_stack series_6";
+input_latter = " color_mode=Default view=Hyperstack stack_order=XYCZT use_virtual_stack series_6";
 
 filelist = getFileList(input_directory);
 
@@ -10,6 +9,7 @@ for (i=0; i<filelist.length; i++) {
     split_filename = split(filelist[i], ".");
     if (split_filename[1] == "scn") {
         run("Bio-Formats Importer", "open=" + input_directory + filelist[i] + input_latter);
+        run("RGB Color");
         run("Save", "save=" + input_directory + split_filename[0] + "_rough.tif");
         close();
     }
