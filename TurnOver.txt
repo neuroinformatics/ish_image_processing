@@ -1,0 +1,13 @@
+input_directory = getArgument;
+if (input_directory=="") exit ("No argument!");
+
+filelist = getFileList(input_directory);
+for (i=0; i<filelist.length; i++) {
+    split_filename = split(filelist[i], ".");
+    if (split_filename.length == 3) {
+        open(input_directory + filelist[i]);
+        run("Flip Vertically");
+        run("Save");
+        close();
+    }
+}
