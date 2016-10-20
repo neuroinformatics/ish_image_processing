@@ -1,7 +1,7 @@
 input_directory = getArgument;
 if (input_directory=="") exit ("No argument!");
 
-input_latter_high = " color_mode=Default view=Hyperstack stack_order=XYCZT use_virtual_stack series_5";
+input_latter_high = " color_mode=Default view=Hyperstack stack_order=XYCZT use_virtual_stack series_4";
 input_latter_low = " color_mode=Default view=Hyperstack stack_order=XYCZT use_virtual_stack series_6";
 
 filelist = getFileList(input_directory);
