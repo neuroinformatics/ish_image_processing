@@ -1,5 +1,7 @@
 ish\_image\_processing
 =====
+![imagej](https://img.shields.io/badge/ImageJ-macro-orange.svg)
+![license](https://img.shields.io/badge/license-apache-blue.svg)
 
 Tools for formatting Marmoset in situ hybridization images
 
